@@ -162,7 +162,7 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
     location              = var.region
     resource_group_name   = azurerm_resource_group.myterraformgroup.name
     network_interface_ids = [azurerm_network_interface.myterraformnic.id]
-    size                  = "Free_F1s"
+    size                  = "Standard_B1ls"
 
     os_disk {
         name              = "myOsDisk"

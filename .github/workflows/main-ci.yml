@@ -63,5 +63,15 @@ jobs:
         run: terraform plan  -var 'prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'region=${{ secrets.REGION }}'
         continue-on-error: true
 
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply  -var 'prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'region=${{ secrets.REGION }}'
+
+      - name: Terraform Output
+        id: saida
+        run: terraform output  
+
+
+
 
 
