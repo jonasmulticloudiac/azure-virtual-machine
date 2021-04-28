@@ -52,7 +52,7 @@ jobs:
    
       - name: Terraform Destroy
         id: destroy
-        run: terraform destroy  -var 'prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'region=${{ secrets.REGION }}'
+        run: terraform destroy  -var 'prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'region=${{ secrets.REGION }}' -auto-approve
   
 
 

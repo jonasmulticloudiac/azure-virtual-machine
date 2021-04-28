@@ -65,7 +65,7 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply  -var 'prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'region=${{ secrets.REGION }}'
+        run: terraform apply  -var 'prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'region=${{ secrets.REGION }}' -auto-approve
 
       - name: Terraform Output
         id: saida
