@@ -15,6 +15,7 @@ resource "azurerm_resource_group" "myterraformgroup" {
 
     tags = {
         environment = var.prefix
+ }
 }
 
 # Create virtual network
@@ -95,6 +96,7 @@ resource "azurerm_network_security_group" "myterraformnsg" {
 
     tags = {
          environment = var.prefix
+ }
 }
 
 # Create network interface
