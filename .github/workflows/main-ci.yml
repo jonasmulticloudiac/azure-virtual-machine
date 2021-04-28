@@ -60,11 +60,11 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color -var "prefix=${{ secrets.RESOURCE_PREFIX }}" -var "region=${{ secrets.REGION }}"
+        run: terraform validate -no-color 
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -var "prefix=${{ secrets.RESOURCE_PREFIX }}" -var "region=${{ secrets.REGION }}"
+        run: terraform plan  -var 'prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'region=${{ secrets.REGION }}'
         continue-on-error: true
 
 
