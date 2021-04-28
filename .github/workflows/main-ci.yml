@@ -33,8 +33,6 @@ jobs:
       ARM_SUBSCRIPTION_ID:  ${{ secrets.TF_ARM_SUBSCRIPTION_ID }}
       ARM_TENANT_ID:        ${{ secrets.TF_ARM_TENANT_ID }}
       ARM_CLIENT_SECRET:    ${{ secrets.TF_ARM_CLIENT_SECRET }}
-      region:               ${{ secrets.TF_REGION }}
-      prefix:               ${{ secrets.TF_PREFIX }}
     
     environment:
       name: dev 
@@ -62,11 +60,11 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: terraform validate -no-color -var "prefix=${{ secrets.RESOURCE_PREFIX }}" -var "region=${{ secrets.REGION }}"
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color
+        run: terraform plan -no-color -var "prefix=${{ secrets.RESOURCE_PREFIX }}" -var "region=${{ secrets.REGION }}"
         continue-on-error: true
 
 
