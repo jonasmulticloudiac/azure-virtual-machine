@@ -7,35 +7,31 @@ provider "azurerm" {
 }
 
 
-locals { 
-    instance_name = "${terraform.workspace}-instance"
-}
 
 # Create a resource group if it doesn't exist
 resource "azurerm_resource_group" "myterraformgroup" {
-    name     = "myResourceGroup"
+    name     =  var.prefix
     location =  var.region
 
     tags = {
-        environment = local.instance_name
-    }
+        environment = var.prefix
 }
 
 # Create virtual network
 resource "azurerm_virtual_network" "myterraformnetwork" {
-    name                = "myVnet"
+    name                = "${var.prefix}-Vnet"
     address_space       = ["10.0.0.0/16"]
     location            = var.region
     resource_group_name = azurerm_resource_group.myterraformgroup.name
 
     tags = {
-         environment = local.instance_name
+         environment = var.prefix
     }
 }
 
 # Create subnet
 resource "azurerm_subnet" "myterraformsubnet" {
-    name                 = "mySubnet"
+    name                 = "${var.prefix}-Subnet"
     resource_group_name  = azurerm_resource_group.myterraformgroup.name
     virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
     address_prefixes       = ["10.0.1.0/24"]
@@ -43,19 +39,19 @@ resource "azurerm_subnet" "myterraformsubnet" {
 
 # Create public IPs
 resource "azurerm_public_ip" "myterraformpublicip" {
-    name                         = "myPublicIP"
+    name                         = "${var.prefix}-IP"
     location                     =  var.region
     resource_group_name          = azurerm_resource_group.myterraformgroup.name
     allocation_method            = "Dynamic"
 
     tags = {
-         environment = local.instance_name
+         environment = var.prefix
     }
 }
 
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "myterraformnsg" {
-    name                = "myNetworkSecurityGroup"
+    name                = "${var.prefix}-ngsl"
     location            =  var.region
     resource_group_name = azurerm_resource_group.myterraformgroup.name
 
@@ -98,25 +94,24 @@ resource "azurerm_network_security_group" "myterraformnsg" {
 
 
     tags = {
-         environment = local.instance_name
-    }
+         environment = var.prefix
 }
 
 # Create network interface
 resource "azurerm_network_interface" "myterraformnic" {
-    name                      = "myNIC"
+    name                      = "${var.prefix}-NIC"
     location                  =  var.region
     resource_group_name       = azurerm_resource_group.myterraformgroup.name
 
     ip_configuration {
-        name                          = "myNicConfiguration"
+        name                          = "${var.prefix}-NIConf"
         subnet_id                     = azurerm_subnet.myterraformsubnet.id
         private_ip_address_allocation = "Dynamic"
         public_ip_address_id          = azurerm_public_ip.myterraformpublicip.id
     }
 
     tags = {
-         environment = local.instance_name
+         environment = var.prefix
     }
 }
 
@@ -145,7 +140,7 @@ resource "azurerm_storage_account" "mystorageaccount" {
     account_replication_type    = "LRS"
 
     tags = {
-        environment = local.instance_name
+        environment = var.prefix
     }
 }
 
@@ -158,7 +153,7 @@ output "tls_private_key" { value = tls_private_key.example_ssh.private_key_pem }
 
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "myterraformvm" {
-    name                  = "myVM"
+    name                  = "${var.prefix}-VM"
     location              = var.region
     resource_group_name   = azurerm_resource_group.myterraformgroup.name
     network_interface_ids = [azurerm_network_interface.myterraformnic.id]
@@ -177,7 +172,7 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
         version   = "latest"
     }
 
-    computer_name  = "myvm"
+    computer_name  = "${var.prefix}-myvm"
     admin_username = "azureuser"
     disable_password_authentication = true
 
@@ -191,7 +186,7 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
     }
 
     tags = {
-         environment = local.instance_name
+         environment = var.prefix
     }
 }
 
