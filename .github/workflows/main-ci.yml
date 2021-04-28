@@ -34,7 +34,7 @@ jobs:
       ARM_TENANT_ID:        ${{ secrets.TF_ARM_TENANT_ID }}
       ARM_CLIENT_SECRET:    ${{ secrets.TF_ARM_CLIENT_SECRET }}
       REGION:               ${{ secrets.TF_REGION }}
-      PREFIX:               ${{ secrets.TF_PREFIX }
+      PREFIX:               ${{ secrets.TF_PREFIX }}
     
     environment:
       name: dev 
