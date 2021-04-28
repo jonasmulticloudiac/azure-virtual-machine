@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Deploy Terraform-Oci
+name: Destroy Projeto
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ jobs:
           path: ${{ github.workspace }}
 
   deploy-dev-infra: 
-    name: Deploy Infra Dev
+    name: Destroy Infra Dev
     runs-on: ubuntu-latest
 
     defaults: 
@@ -55,8 +55,8 @@ jobs:
         run: terraform init
 
 
-      - name: Terraform Apply
-        id: apply
+      - name: Terraform Destroy
+        id: destroy
         run: terraform destroy  -var 'prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'region=${{ secrets.REGION }}' -auto-approve
 
 
